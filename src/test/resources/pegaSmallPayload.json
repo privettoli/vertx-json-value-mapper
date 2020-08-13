@@ -1,0 +1,22 @@
+{
+  "di": "2000216BA00020UPD",
+  "structured": "1410AC22E98326EACEPOAFB02CA2B08634CD4DD70755284d",
+  "requestedCruise": "YACHT_CLUB_TO_SEYCHELLES",
+  "attendants": [
+    {
+      "bender": -1,
+      "fry": "TRIP_CANCELLED",
+      "riskReason": "OD",
+      "riskDateTime": "20200310T164621.150 GMT",
+      "good": false
+    },
+    {
+      "riskDateTimeBroken": "20200310T1646\uD83D\uDE4A.150 GMT",
+      "otherRisks": [
+        "nope",
+        "19890918T053347.789 GMT",
+        "na-ha!"
+      ]
+    }
+  ]
+}
