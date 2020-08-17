@@ -16,7 +16,7 @@ import static java.util.regex.Pattern.compile;
  * and {@link JsonValueRegexpMapper#replacement}
  * exactly once.<br>
  * Optionally, {@link JsonValueRegexpMapper#minimumLength} and {@link JsonValueRegexpMapper#maximumLength}
- * can filter out values that shouldn't even be checked with regexp.
+ * can filter out values that shouldn't even be checked with regexp.<br>
  * This class is not thread-safe.
  */
 public class JsonValueRegexpMapper {
