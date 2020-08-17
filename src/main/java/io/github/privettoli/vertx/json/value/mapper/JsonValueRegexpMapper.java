@@ -5,13 +5,19 @@ import io.vertx.core.json.JsonObject;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.regex.Matcher;
 
+import static java.util.Objects.requireNonNull;
 import static java.util.regex.Pattern.compile;
 
 /**
- * Not thread-safe.
+ * Replaces string values in {@link JsonObject}
+ * using {@link JsonValueRegexpMapper#matcher} (created from regexp provided in constructor)
+ * and {@link JsonValueRegexpMapper#replacement}
+ * exactly once.<br>
+ * Optionally, {@link JsonValueRegexpMapper#minimumLength} and {@link JsonValueRegexpMapper#maximumLength}
+ * can filter out values that shouldn't even be checked with regexp.
+ * This class is not thread-safe.
  */
 public class JsonValueRegexpMapper {
     private final Matcher matcher;
@@ -28,10 +34,11 @@ public class JsonValueRegexpMapper {
     }
 
     public JsonValueRegexpMapper(String regexp, String replacement, int minimumLength, int maximumLength) {
-        this.matcher = compile(regexp).matcher("Not thread safe");
-        this.replacement = Objects.requireNonNull(replacement);
-        this.maximumLength = Objects.checkIndex(maximumLength, Integer.MAX_VALUE);
-        this.minimumLength = Objects.checkFromToIndex(minimumLength, maximumLength, Integer.MAX_VALUE);
+        this.matcher = compile(requireNonNull(regexp, "Regexp was null")).matcher("Not thread safe");
+        this.replacement = requireNonNull(replacement, "Replacement was null");
+        checkLengthRange(minimumLength, maximumLength);
+        this.minimumLength = minimumLength;
+        this.maximumLength = maximumLength;
     }
 
     public void map(JsonObject jsonObject) {
@@ -89,5 +96,16 @@ public class JsonValueRegexpMapper {
             return value;
         }
         return matcher.reset(value).replaceFirst(replacement);
+    }
+
+    private void checkLengthRange(int minimumLength, int maximumLength) {
+        if (minimumLength <= 0 || maximumLength < minimumLength) {
+            String range = maximumLength == minimumLength
+                ? String.valueOf(maximumLength)
+                : "from " + minimumLength + " to " + maximumLength;
+            throw new IllegalArgumentException(
+                "Provided length " + range + " is not supported"
+            );
+        }
     }
 }

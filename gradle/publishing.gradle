@@ -1,0 +1,56 @@
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'vertx-json-value-mapper'
+            from components.java
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+            pom {
+                name = 'vertx-json-value-mapper'
+                description = "A library to map values of Vert.x's JsonObject by regexp patterns."
+                url = 'https://github.com/privettoli/vertx-json-value-mapper'
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://opensource.org/licenses/MIT'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'privettoli'
+                        name = 'Anatolii Papenko'
+                        email = 'privettoli@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/privettoli/vertx-json-value-mapper.git'
+                    developerConnection = 'scm:git:ssh://github.com/privettoli/vertx-json-value-mapper.git'
+                    url = 'https://github.com/privettoli/vertx-json-value-mapper'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            url = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
+            credentials {
+                username System.getenv('MAVEN_CENTRAL_LOGIN')
+                password System.getenv('MAVEN_CENTRAL_PASSWORD')
+            }
+        }
+    }
+}
+
+javadoc {
+    options.addBooleanOption('html5', true)
+}

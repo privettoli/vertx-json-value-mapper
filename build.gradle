@@ -1,7 +1,10 @@
 plugins {
     id 'java'
-    id "me.champeau.gradle.jmh" version "0.5.0"
+    id 'java-library'
+    id 'maven-publish'
+    id 'me.champeau.gradle.jmh' version '0.5.0'
 }
+apply from: 'gradle/publishing.gradle'
 
 group 'io.github.privettoli'
 version '0.0.1'
@@ -10,17 +13,31 @@ repositories {
     mavenCentral()
 }
 
+// Let's support Java 8 until 9+ features are required
 java {
-    targetCompatibility JavaVersion.VERSION_11
-    sourceCompatibility JavaVersion.VERSION_11
+    targetCompatibility JavaVersion.VERSION_1_8
+    sourceCompatibility JavaVersion.VERSION_1_8
+}
+
+compileJava {
+    options.release = 8
+}
+
+compileTestJava {
+    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_11
+}
+
+configurations {
+    testImplementation.extendsFrom compileOnly
 }
 
 dependencies {
-    implementation 'io.vertx:vertx-core:+'
-    testImplementation 'org.junit.jupiter:junit-jupiter:+'
-    testImplementation 'org.junit.jupiter:junit-jupiter-params:+'
-    testImplementation 'org.assertj:assertj-core:+'
-    testImplementation 'org.skyscreamer:jsonassert:+'
+    compileOnly 'io.vertx:vertx-core:latest.release'
+    testImplementation 'org.junit.jupiter:junit-jupiter:latest.release'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:latest.release'
+    testImplementation 'org.assertj:assertj-core:latest.release'
+    testImplementation 'org.skyscreamer:jsonassert:latest.release'
 }
 
 test {
@@ -28,6 +45,6 @@ test {
 }
 
 tasks.named('wrapper') {
-    version = '6.5.1'
+    version = '6.6'
     distributionType = Wrapper.DistributionType.ALL
 }
