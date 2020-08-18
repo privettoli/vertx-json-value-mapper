@@ -3,6 +3,10 @@ A tiny library to map values in Vert.x JsonObject.
 
 Use-case: having JsonObject, using a regular expression, replace all string values to a particular replacement.
 
+```groovy
+implementation 'io.github.privettoli:vertx-json-value-mapper:0.0.1'
+```
+
 ### Example:
 ```java
 new JsonValueRegexpMapper( <-- not thead-safe object
