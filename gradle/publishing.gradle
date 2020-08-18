@@ -44,11 +44,18 @@ publishing {
         maven {
             url = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
             credentials {
-                username System.getenv('MAVEN_CENTRAL_LOGIN')
-                password System.getenv('MAVEN_CENTRAL_PASSWORD')
+                username = findProperty("ossrhUsername")
+                password = findProperty("ossrhPassword")
             }
         }
     }
+}
+
+signing {
+    String signingKey = findProperty("signingKey")
+    String signingPassword = findProperty("signingPassword")
+    useInMemoryPgpKeys(signingKey, signingPassword)
+    sign publishing.publications.mavenJava
 }
 
 javadoc {

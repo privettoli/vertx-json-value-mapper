@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'java-library'
     id 'maven-publish'
+    id 'signing'
     id 'me.champeau.gradle.jmh' version '0.5.0'
 }
 apply from: 'gradle/publishing.gradle'
@@ -20,7 +21,7 @@ java {
 }
 
 compileJava {
-    options.release = 8
+    options.release.set(8)
 }
 
 compileTestJava {
