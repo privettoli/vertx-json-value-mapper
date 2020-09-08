@@ -9,7 +9,7 @@ implementation 'io.github.privettoli:vertx-json-value-mapper:0.0.1'
 
 ### Example:
 ```java
-new JsonValueRegexpMapper( <-- not thead-safe object
+new JsonValueRegexpMapper( <-- not thead-safe object however blocking code in verticle is never executed by multiple threads at the same time
     "^(\\d{4})(\\d{2})(\\d{2})T(\\d{2})(\\d{2})(\\d{2})\\.(\\d{3})\\sGMT$",
     "$1-$2-$3T$4:$5:$6.$7Z",
     "19890918T053347.789 GMT".length()
